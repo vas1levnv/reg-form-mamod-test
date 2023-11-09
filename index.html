@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+</head>
+<body>
+<div>
+	<div id="app">
+		<div class="container">
+			<div v-if="!successFetchData" class="content">
+				<form class="form">
+					<h1>Регистрация</h1>
+					<h2>Заполните Ваши данные</h2>
+					<div v-if="isFullError" class="error">Пожалуйста заполните пустые поля</div>
+					<div class="form-input">
+						<custom-input
+								type="text"
+								@input-value="getNameValue"
+								placeholder="Имя"
+								error-title="Пожалуйста введите корректное имя"
+						></custom-input>
+						<div class="form-item">
+							<input type="text"
+							       :class="{error: isErrorEmail}"
+							       v-model="email"
+							       tabindex="0"
+							       @focus="isErrorEmail = false"
+							       @blur="validateEmail"
+							       required placeholder="Email"/>
+							<div class="error-text" v-if="isErrorEmail">Пожалуйста введите корректный Email</div>
+						</div>
+						<div class="form-input__empty"></div>
+						<div class="form-item">
+							<custom-select
+									v-bind:option-value="optionValue"
+									select-title="Должность"
+									@input-option="checkOptionValue"
+									v-bind:options="options"
+							></custom-select>
+						</div>
+						<custom-input
+								type="password"
+								@input-value="getFirstPasswordValue"
+								placeholder="Пароль"
+								error-title="Введите пароль"
+						></custom-input>
+						<custom-input
+								type="password"
+								@input-value="getSecondPasswordValue"
+								placeholder="Повторите пароль"
+								error-title="Введите пароль"
+						></custom-input>
+
+					</div>
+					<div class="form-bottom">
+						<div class="form-switch">
+							<label class="switch" tabindex="0">
+								<input type="checkbox" v-model="switchValue">
+								<span class="slider round"></span>
+							</label>
+							<div>
+								<div class="form-switch__title">Хотите чтобы Ваш профиль видели другие участники
+									платформы?
+								</div>
+								<div>Включает профиль для просмотра другими пользователями по ссылке</div>
+							</div>
+						</div>
+						<div class="form-bottom__content">
+							<label class="agreement">
+								<label class="checkbox-wrapper">
+									<input type="checkbox"
+									       v-model="checkbox" required :checked="checkbox"/>
+									<span class="checkmark"></span>
+								</label>
+								<span>Регистрируясь, Вы соглашаетесь с <a href="">политикой конфиденциальности</a> и обработкой <a href="">персональных данных</a></span>
+							</label>
+							<button @click="fetchFormData">Зарегистрироваться</button>
+						</div>
+					</div>
+					
+				</form>
+				<div v-if="isLoading" class="preloader">
+					<img src="assets/img/loading.gif" alt="preloader">
+				</div>
+			</div>
+			<div v-if="successFetchData" class="success-registration">
+				Регистрация успешно завершена!
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
