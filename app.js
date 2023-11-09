@@ -166,7 +166,6 @@ var app = new Vue({
 						this.isLoading = false
 					}
 					
-					console.log(this.name, this.checkbox, this.email, this.optionValue, this.firstPassword, this.secondPassword)
 					this.isLoading = false
 				}, 2000)
 			} else {
